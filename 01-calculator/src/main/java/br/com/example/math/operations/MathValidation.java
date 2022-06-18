@@ -1,5 +1,8 @@
 package br.com.example.math.operations;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class MathValidation {
 	
 	public MathValidation() {

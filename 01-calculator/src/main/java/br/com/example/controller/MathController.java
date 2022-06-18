@@ -1,5 +1,6 @@
 package br.com.example.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,7 +11,8 @@ import br.com.example.math.operations.MathOperations;
 @RestController
 public class MathController {
 
-	MathOperations operation = new MathOperations();
+	@Autowired
+	MathOperations operation;
 	
 	@RequestMapping(value="/sum/{numberOne}/{numberTwo}", method=RequestMethod.GET)
 	public Double sum(@PathVariable("numberOne") String numberOne, @PathVariable("numberTwo") String numberTwo) throws Exception{

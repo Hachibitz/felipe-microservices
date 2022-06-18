@@ -1,10 +1,15 @@
 package br.com.example.math.operations;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import br.com.example.exception.InvalidOperatorException;
 
+@Service
 public class MathOperations {
-
-	MathValidation validation = new MathValidation();
+	
+	@Autowired
+	MathValidation validation;
 	
 	public MathOperations() {
 		
@@ -14,7 +19,7 @@ public class MathOperations {
 		if (!validation.isNumeric(numberOne) || !validation.isNumeric(numberTwo)) {
 			throw new InvalidOperatorException("must be a valid number");
 		}else {
-			Double sub = validation.convertToDouble(numberOne)-validation.convertToDouble(numberTwo);
+			Double sub = validation.convertToDouble(numberOne)+validation.convertToDouble(numberTwo);
 			return sub;
 		}
 	}
