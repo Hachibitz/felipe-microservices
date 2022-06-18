@@ -1,9 +1,11 @@
-package br.com.example.math.operations;
+package br.com.example.controller;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import br.com.example.math.operations.MathOperations;
 
 @RestController
 public class MathController {
