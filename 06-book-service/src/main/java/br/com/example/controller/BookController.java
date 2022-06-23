@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import br.com.example.model.Book;
+import br.com.example.proxy.CambioProxy;
 import br.com.example.repository.BookRepository;
 import br.com.example.response.Cambio;
 
@@ -24,7 +25,27 @@ public class BookController {
 	@Autowired
 	private BookRepository repository;
 	
+	@Autowired
+	private CambioProxy proxy;
+	
 	@GetMapping(value = "/{id}/{currency}")
+	public Book findBook(@PathVariable("id") Long id,
+			@PathVariable("currency") String currency) {
+		
+		//acessar o bd e retornar o obj como está no banco, ainda sem converter dolar para real
+		var book = repository.getById(id);
+		if (book == null) throw new RuntimeException("Book not found");
+				
+		var cambio = proxy.getCambio(book.getPrice(), "USD", currency);
+		
+		var port = environment.getProperty("local.server.port");
+		book.setEnvironment(port + " FEIGN");
+		book.setPrice(cambio.getConvertedValue());
+		
+		return book;
+	}
+	
+	/*@GetMapping(value = "/{id}/{currency}")
 	public Book findBook(@PathVariable("id") Long id,
 			@PathVariable("currency") String currency) {
 		
@@ -38,10 +59,10 @@ public class BookController {
 		params.put("to", currency);
 		
 		var response = new RestTemplate()
-		.getForEntity(
-				"http://localhost:8000/cambio-service/{amount}/{from}/{to}",
-				Cambio.class, 
-				params);
+				.getForEntity(
+						"http://localhost:8000/cambio-service/{amount}/{from}/{to}",
+						Cambio.class, 
+						params);
 		
 		var cambio = response.getBody();
 		
@@ -50,5 +71,5 @@ public class BookController {
 		book.setPrice(cambio.getConvertedValue());
 		
 		return book;
-	}
+	}*/
 }
