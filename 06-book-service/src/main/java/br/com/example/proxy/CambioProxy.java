@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import br.com.example.response.Cambio;
 
 //substitui a estrutura "REST template" e consegue extrair os dados de forma dinâmica
-@FeignClient(name = "cambio-service", url = "localhost:8000")
+@FeignClient(name = "cambio-service")
 public interface CambioProxy {
 	
 	@GetMapping(value = "/cambio-service/{amount}/{from}/{to}")
